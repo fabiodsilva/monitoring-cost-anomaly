@@ -1,0 +1,128 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: AWS Cost Anomaly Notification Integration With Third Party Tools (JIRA & ServiceNow)
+Parameters:
+  SnsTopicArn:
+    Type: String
+    Description: ARN of the Amazon SNS topic
+    AllowedPattern: '^arn:aws[a-z0-9\-]*:sns:[a-z0-9\-]+:\d{12}:([\w\-]{1,256})$'
+  IntegrationURL:
+    Type: String
+    Description: Endpoint Integration URL
+    AllowedPattern: '^(http(s):\/\/.)[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$'
+Resources:
+  IntegrationLambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Handler: index.lambda_handler
+      Role: !GetAtt IntegrationLambdaExecutionRole.Arn
+      FunctionName: !Sub 'aws-cost-anomaly-integration-${AWS::StackName}'
+      Code:
+        ZipFile: |
+          import json
+          import urllib3
+          import os
+          import boto3
+
+          def lambda_handler(event, context):
+              print("EVENT",event)
+              print("CONTEXT",context)
+              # Define the webhook URL (the URL from the Teams webhook configuration)
+              webhook_url = os.environ['WEBHOOK_URL']
+
+              anomalyDetailsLink = event['anomalyDetailsLink']
+              accontId = event['accountId']   
+              accountname = event['accountName']
+              rootcauses = event['rootCauses']
+              impact = event['impact']
+              # Create the message payload
+                
+              message_payload = {
+
+
+                        "themeColor": "#FF0000",
+                        "@type": "messageCard",
+                        "@context": "http://schema.org/extensions",
+                        "title": "******🚨🚨Anomaly Detected🚨🚨*******",
+                        "text": f"Link: {anomalyDetailsLink}\n\n AccountId: {accontId}\n\n AccountName: {accountname}\n\n RootCauses: {rootcauses}\n\n Impact: {impact} \n\n ",
+                        "sections": [
+                            {
+                            "activityTitle": "Anomaly detect",
+                            #"activitySubtitle": "Triggered",
+                            "activityImage": "https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png",
+                            "facts": [
+                                {
+                                    "name": "Status:",
+                                    "value": "Success"
+                                    }
+                                    ]
+                            } 
+                            ]
+
+                    }
+
+    
+
+              # Set up HTTP request
+              http = urllib3.PoolManager()
+              headers = {'Content-Type': 'application/json'}
+              # Send POST request to Teams Webhook
+              response = http.request("POST", webhook_url, body=json.dumps(message_payload), headers=headers )
+
+              # Log the response from Teams
+              print(f"payload: {message_payload}")
+              print(f"Response: {response}")
+              print(f"Response status: {response.status}")
+              print(f"Response body: {response.data}")
+
+              return {
+                   'statusCode': 200,
+                   'body': json.dumps('Message sent to Teams!')
+               }
+
+          
+
+
+      Runtime: python3.10
+      Timeout: 60
+      MemorySize: 128
+      Environment:
+        Variables:
+          WEBHOOK_URL: !Ref 'IntegrationURL'
+  IntegrationLambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${IntegrationLambdaFunction}'
+      RetentionInDays: 60
+  IntegrationLambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub 'arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+  LambdaSNSPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !GetAtt 'IntegrationLambdaFunction.Arn'
+      Principal: sns.amazonaws.com
+      SourceArn: !Ref 'SnsTopicArn'
+  SnsSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: lambda
+      TopicArn: !Ref 'SnsTopicArn'
+      Endpoint: !GetAtt 'IntegrationLambdaFunction.Arn'
+Outputs:
+  LambdaFunctionArn:
+    Description: ARN of the AWS Lambda function
+    Value: !GetAtt 'IntegrationLambdaFunction.Arn'
+  LambdaFunctionName:
+    Description: Name of the AWS Lambda function
+    Value: !Ref 'IntegrationLambdaFunction'
