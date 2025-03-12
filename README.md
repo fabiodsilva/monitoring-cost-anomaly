@@ -6,6 +6,7 @@ What this Template does:
      * Create a Lambda who send messages to MS Teams always that cost anomaly detection trigger a SNS;
 
 
+![anomaly-detect-teams](https://github.com/user-attachments/assets/1507f75a-6bcf-40ba-999b-d873886b412e)
 
 
 ## Requirements
