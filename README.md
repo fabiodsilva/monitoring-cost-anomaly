@@ -30,11 +30,14 @@ Select Connectors from the dropdown menu.
 
 4. Select Configure, provide a name, and upload an image for your webhook if necessary.
 
+![image](https://github.com/user-attachments/assets/0cb22c5b-fb5f-4464-855e-368cf264604b)
+
 
 5. Copy and save the unique webhook URL present in the dialog. The URL maps to the channel and you can use it to send information to Teams.
 
 6. Select Done.
 
+![image](https://github.com/user-attachments/assets/2677c20d-a8bc-47ed-8600-c505def309e8)
 
 The webhook is now available in the Teams channel.
 
