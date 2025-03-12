@@ -8,8 +8,6 @@ What this Template does:
 
 
 
-Cis-Benchmark on AWS using Cloudformation.
-
 
 ## Requirements
 
@@ -18,7 +16,7 @@ Cis-Benchmark on AWS using Cloudformation.
 2 - TEAMS Webhook
 
 
-Create Incoming Webhooks
+## Create Incoming Webhooks
 To add an Incoming Webhook to a Teams channel, follow these steps:
 
 Open the channel in which you want to add the webhook and select ••• from the upper-right corner.
