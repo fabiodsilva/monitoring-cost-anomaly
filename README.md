@@ -1,6 +1,5 @@
 # AWS Cost Anomaly Monitoring by teams
 
-Apply CIS Benckmark on AWS
 
 What this Template does:
 
