@@ -1,31 +1,22 @@
 {
-  "accountId": "112233445566",
-  "accountName": "ABC",
-  "anomalyStartDate": "2023-10-04T00:00:00Z",
-  "anomalyEndDate": "2023-10-04T00:00:00Z",
-  "anomalyId": "12345-abcd-efgh-1234-1234dert53",
-  "dimensionalValue": "AWS Glue",
-  "monitorArn": "arn:aws:ce::112233445566:anomalymonitor/12345-ab93-4545-1234-00dse12345",
-  "monitorName": "QS Integration",
-  "monitorType": "DIMENSIONAL",
-  "anomalyScore": {
-    "maxScore": 0.27,
-    "currentScore": 0.27
-  },
-  "impact": {
-    "maxImpact": 0.25,
-    "totalExpectedSpend": 0,
-    "totalActualSpend": 0.25,
-    "totalImpact": 0.25
-  },
-  "rootCauses": [
+  "Records": [
     {
-      "service": "AWS Glue",
-      "region": "us-east-1",
-      "linkedAccount": "112233445566",
-      "linkedAccountName": "MyAccount",
-      "usageType": "USE1-Crawler-DPU-Hour"
+      "EventSource": "aws:sns",
+      "EventVersion": "1.0",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-1:112233445566:anomaly-detect-alarms:4a2b95de-58bb-482e-a00a-72edec31a7e4",
+      "Sns": {
+        "Type": "Notification",
+        "MessageId": "1af46325-e3a0-5146-8831-0369235f6d8a",
+        "TopicArn": "arn:aws:sns:us-east-1:112233445566:anomaly-detect-alarms",
+        "Subject": "TESTE",
+        "Message": "{\n  \"accountId\": \"112233445566\",\n  \"accountName\": \"ABC\",\n  \"anomalyStartDate\": \"2023-10-04T00:00:00Z\",\n  \"anomalyEndDate\": \"2023-10-04T00:00:00Z\",\n  \"anomalyId\": \"12345-abcd-efgh-1234-1234dert53\",\n  \"dimensionalValue\": \"AWS Glue\",\n  \"monitorArn\": \"arn:aws:ce::112233445566:anomalymonitor/12345-ab93-4545-1234-00dse12345\",\n  \"monitorName\": \"QS Integration\",\n  \"monitorType\": \"DIMENSIONAL\",\n  \"anomalyScore\": {\n    \"maxScore\": 0.27,\n    \"currentScore\": 0.27\n  },\n  \"impact\": {\n    \"maxImpact\": 0.25,\n    \"totalExpectedSpend\": 0,\n    \"totalActualSpend\": 0.25,\n    \"totalImpact\": 0.25\n  },\n  \"rootCauses\": [\n    {\n      \"service\": \"AWS Glue\",\n      \"region\": \"us-east-1\",\n      \"linkedAccount\": \"112233445566\",\n      \"linkedAccountName\": \"MyAccount\",\n      \"usageType\": \"USE1-Crawler-DPU-Hour\"\n    }\n  ],\n  \"anomalyDetailsLink\": \"https://console.aws.amazon.com/cost-management/home#/anomaly-detection/monitors/xxxx-ab93-xxx-a78d-xxxxxxx/anomalies/xxxx-xxxx-xxxx-xxx\"\n}",
+        "Timestamp": "2025-03-13T11:17:19.225Z",
+        "SignatureVersion": "1",
+        "Signature": "fRVZWHJ/2ZYHLVtsOIjKfk/+XeSetpOI2i63oKETwwwN/qdfGOK0+3WfMEmG5qJagsZ2r7o2EYXtphlMNvlJZGygwOAgg1EwAxA6adBBVsgwV+lVZggmglFiJEYFjx5zh6DKapubCmjwsgX3aGYXFTYeLBI0sZXPlbCCJfIQ+vVWgdIgA+hMWmZx/xCBeqfYPq9jocsAJHjAwfw0Y+b7Cch35mSSs3yzq6c4c8UrRM5ChZKA9aAsXWhOnSBV1bijGrM+PpsgNSsK/oznjqqWJhDi4iX9WqRdIwBOu3axGwpoveHz7cwT4pvpjqWvzGAKLg/loodwHoSZLHbVc0l8PQ==",
+        "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-9c6465fa7f48f5cacd23014631ec1136.pem",
+        "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:112233445566:anomaly-detect-alarms:4a2b95de-58bb-482e-a00a-72edec31a7e4",
+        "MessageAttributes": {}
+      }
     }
-  ],
-  "anomalyDetailsLink": "https://console.aws.amazon.com/cost-management/home#/anomaly-detection/monitors/xxxx-ab93-xxx-a78d-xxxxxxx/anomalies/xxxx-xxxx-xxxx-xxx"
+  ]
 }
