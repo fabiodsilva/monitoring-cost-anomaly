@@ -29,12 +29,16 @@ Resources:
               print("CONTEXT",context)
               # Define the webhook URL (the URL from the Teams webhook configuration)
               webhook_url = os.environ['WEBHOOK_URL']
-
-              anomalyDetailsLink = event['anomalyDetailsLink']
-              accontId = event['accountId']   
-              accountname = event['accountName']
-              rootcauses = event['rootCauses']
-              impact = event['impact']
+              sns_message = event['Records'][0]['Sns']['Message']
+              # Checking if sns_message is a string to parse it
+              if isinstance(sns_message, str):
+                  sns_message = json.loads(sns_message)
+          
+              anomalyDetails = sns_message['anomalyDetailsLink']
+              accontId = sns_message['accountId']   
+              accountname = sns_message['accountName']
+              rootcauses = sns_message['rootCauses']
+              impact = sns_message['impact']
               # Create the message payload
                 
               message_payload = {
